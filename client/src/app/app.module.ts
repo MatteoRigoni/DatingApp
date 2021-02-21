@@ -7,16 +7,26 @@ import { HttpClientModule } from '@angular/common/http';
 import { NavComponent } from './nav/nav.component'
 import { FormsModule } from '@angular/forms'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
+import { ListsComponent } from './lists/lists.component';
+import { MessagesComponent } from './messages/messages.component';
+import { MerberListComponent } from './members/merber-list/merber-list.component';
+import { MerberDetailComponent } from './members/merber-detail/merber-detail.component';
+import { SharedModule } from './_modules/shared.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     HomeComponent,
-    RegisterComponent
+    RegisterComponent,
+    ListsComponent,
+    MessagesComponent,
+    MerberListComponent,
+    MerberDetailComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -24,7 +34,7 @@ import { RegisterComponent } from './register/register.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    BsDropdownModule.forRoot()
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]
