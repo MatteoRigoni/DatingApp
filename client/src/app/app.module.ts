@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NavComponent } from './nav/nav.component'
 import { FormsModule } from '@angular/forms'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -16,6 +16,12 @@ import { MessagesComponent } from './messages/messages.component';
 import { MerberListComponent } from './members/merber-list/merber-list.component';
 import { MerberDetailComponent } from './members/merber-detail/merber-detail.component';
 import { SharedModule } from './_modules/shared.module';
+import { ErrorComponent } from './errors/error/error.component';
+import { ErrorInterceptor } from './_interseptors/error.interceptor';
+import { NotFoundComponent } from './errors/not-found/not-found.component';
+import { ServerErrorComponent } from './errors/server-error/server-error.component';
+import { MemberCardComponent } from './members/member-card/member-card.component';
+import { JwtInterceptor } from './_interseptors/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -26,7 +32,11 @@ import { SharedModule } from './_modules/shared.module';
     ListsComponent,
     MessagesComponent,
     MerberListComponent,
-    MerberDetailComponent
+    MerberDetailComponent,
+    ErrorComponent,
+    NotFoundComponent,
+    ServerErrorComponent,
+    MemberCardComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -36,7 +46,10 @@ import { SharedModule } from './_modules/shared.module';
     FormsModule,
     SharedModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
