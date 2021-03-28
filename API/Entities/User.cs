@@ -1,18 +1,19 @@
 using System;
 using System.Collections.Generic;
 using API.Extentions;
+using Microsoft.AspNetCore.Identity;
 
 namespace API.Entities
 {
-    public class User
+    public class User : IdentityUser<int>
     {
         public User()
         {
         }
-        public int Id { get; set; }
-        public string Username { get; set; }
-        public byte[] PasswordHash { get; set; }
-        public byte[] PasswordSalt { get; set; }
+        // public int Id { get; set; }
+        // public string UserName { get; set; }
+        // public byte[] PasswordHash { get; set; }
+        // public byte[] PasswordSalt { get; set; }
         public DateTime DateBirth { get; set; }
         public string Alias { get; set; }
         public string Gender { get; set; }
@@ -30,6 +31,7 @@ namespace API.Entities
 
         public ICollection<Message> MessagesSent { get; set; }
         public ICollection<Message> MessagesReceived { get; set; }
+        public ICollection<AppUserRole> UserRoles {get;set;}
 
         public int GetAge()
         {

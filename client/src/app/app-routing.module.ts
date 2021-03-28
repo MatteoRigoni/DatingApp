@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { ErrorComponent } from './errors/error/error.component';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
@@ -9,6 +10,7 @@ import { MemberEditComponent } from './members/member-edit/member-edit.component
 import { MerberDetailComponent } from './members/merber-detail/merber-detail.component';
 import { MerberListComponent } from './members/merber-list/merber-list.component';
 import { MessagesComponent } from './messages/messages.component';
+import { AdminGuard } from './_guards/admin.guard';
 import { AuthGuard } from './_guards/auth.guard';
 import { PreventUsavedChangesGuard } from './_guards/prevent-usaved-changes.guard';
 import { MemberDetailResolver } from './_resolvers/member-detail-resolver';
@@ -24,7 +26,8 @@ const routes: Routes = [
       {path: 'members/:username', component: MerberDetailComponent, resolve: {member: MemberDetailResolver}},
       {path: 'member/edit', component: MemberEditComponent, canDeactivate: [PreventUsavedChangesGuard]},
       {path: 'lists', component: ListsComponent},
-      {path: 'messages', component: MessagesComponent}
+      {path: 'messages', component: MessagesComponent},
+      {path: 'admin', component: AdminPanelComponent, canActivate: [AdminGuard]}
     ]
   },
   {path: 'errors', component: ErrorComponent },
