@@ -11,6 +11,7 @@ import { MerberListComponent } from './members/merber-list/merber-list.component
 import { MessagesComponent } from './messages/messages.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { PreventUsavedChangesGuard } from './_guards/prevent-usaved-changes.guard';
+import { MemberDetailResolver } from './_resolvers/member-detail-resolver';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -20,7 +21,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {path: 'members', component: MerberListComponent },
-      {path: 'members/:username', component: MerberDetailComponent},
+      {path: 'members/:username', component: MerberDetailComponent, resolve: {member: MemberDetailResolver}},
       {path: 'member/edit', component: MemberEditComponent, canDeactivate: [PreventUsavedChangesGuard]},
       {path: 'lists', component: ListsComponent},
       {path: 'messages', component: MessagesComponent}

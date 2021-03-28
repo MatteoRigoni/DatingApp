@@ -29,6 +29,8 @@ export class ErrorInterceptor implements HttpInterceptor {
                   }
                 }
                 throw modalStateErrors.flat();
+              } else if (typeof(error.error) === 'object') {
+                this.toastService.error(error.error, error.status);
               } else {
                 this.toastService.error(error.error, error.status);
               }

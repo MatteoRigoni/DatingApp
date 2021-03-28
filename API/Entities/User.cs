@@ -25,6 +25,12 @@ namespace API.Entities
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public DateTime LastActive { get; set; } = DateTime.Now;
 
+        public ICollection<UserLike> LikedByUsers { get; set; }
+        public ICollection<UserLike> LikedUsers { get; set; }
+
+        public ICollection<Message> MessagesSent { get; set; }
+        public ICollection<Message> MessagesReceived { get; set; }
+
         public int GetAge()
         {
             return this.DateBirth.CalculateAge();
