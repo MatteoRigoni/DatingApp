@@ -65,10 +65,15 @@ namespace API
             app.UseAuthentication();
             app.UseAuthorization();
 
+            // for development to point API/wwwroot...
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<PresenceHub>("hubs/presence");
+                endpoints.MapFallbackToController("Index", "Fallback"); // to redirect to client index
             });
         }
     }
