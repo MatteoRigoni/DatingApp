@@ -11,36 +11,34 @@ namespace API.Controllers
     [Authorize]
     public class LIkesController : BaseApiController
     {
-        private readonly IUserRepository _userRepository;
-        private readonly ILikesRepository _likesRepository;
-        public LIkesController(IUserRepository userRepository, ILikesRepository likesRepository)
+        private readonly IUnitOfWork _uow;
+        public LIkesController(IUnitOfWork uow)
         {
-            _likesRepository = likesRepository;
-            _userRepository = userRepository;
+            _uow = uow;
         }
 
         [HttpPost("{username}")]
         public async Task<ActionResult> AddLike(string username)
         {
             var sourceUserId = User.GetUserId();
-            var likedUser = await _userRepository.GetUserByUsernameAsync(username);
-            var sourceUser = await _likesRepository.GetUserWithLike(sourceUserId);
+            var likedUser = await _uow.UserRepository.GetUserByUsernameAsync(username);
+            var sourceUser = await _uow.LikesRepository.GetUserWithLike(sourceUserId);
 
             if (likedUser == null) return NotFound();
 
             if (sourceUser.UserName == username) return BadRequest("You cannot like yourself");
 
-            var userLike = await _likesRepository.GetUserLike(sourceUserId, likedUser.Id);
+            var userLike = await _uow.LikesRepository.GetUserLike(sourceUserId, likedUser.Id);
             if (userLike != null) return BadRequest("You already like this user");
 
-            userLike = new Entities.UserLike() 
+            userLike = new Entities.UserLike()
             {
                 SourceUserId = sourceUser.Id,
                 LikedUserId = likedUser.Id
             };
 
             sourceUser.LikedUsers.Add(userLike);
-            if (await _userRepository.SaveAllAsync()) return Ok();
+            if (await _uow.Complete()) return Ok();
 
             return BadRequest("Failed to like user");
         }
@@ -48,7 +46,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<LikeDto>>> GetUserLikes(string predicate)
         {
-            var users = await _likesRepository.GetUserLikes(predicate, User.GetUserId());
+            var users = await _uow.LikesRepository.GetUserLikes(predicate, User.GetUserId());
             return Ok(users);
         }
     }

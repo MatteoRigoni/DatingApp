@@ -6,6 +6,7 @@ import { NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from '@kolkov
 import { TabDirective, TabsetComponent } from 'ngx-bootstrap/tabs';
 import { Message } from 'src/app/models/message';
 import { MessageService } from 'src/app/services/message.service';
+import { PresencesService } from 'src/app/services/presences.service';
 
 @Component({
   selector: 'app-merber-detail',
@@ -21,7 +22,10 @@ export class MerberDetailComponent implements OnInit {
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
 
-  constructor(private memberService : MembersService, private route: ActivatedRoute, private messageService: MessageService) { }
+  constructor(private memberService : MembersService,
+      private route: ActivatedRoute,
+      private messageService: MessageService,
+      public presence: PresencesService) { }
 
   ngOnInit(): void {
     //this.lodaMember();
